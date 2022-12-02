@@ -1,13 +1,21 @@
+import model.DocumentWZ;
 import model.SalesDocument;
 import model.Stock;
 import model.User;
+import service.SalesDocumentService;
+import service.StockService;
+import service.UserService;
 
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class GroceryShop {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
+
         Scanner in = new Scanner(System.in);
-        Stock defaultStock = new Stock();
+        StockService stockService = StockService.getInstance();
+        Stock stock = StockService.getInstance().getStock();
+        SalesDocumentService salesDocumentService = SalesDocumentService.getInstance();
         //logowanie domyślnego użytkownika
         User a = new User("Jan", "Kowalski", "admin", "admin");
         System.out.print("Podaj login: ");
@@ -16,7 +24,7 @@ public class GroceryShop {
         String pas = in.nextLine();
         if(a.logIN(log,pas)){
             //powitanie
-            System.out.println("Witaj w Grocery Shop!");
+            System.out.println("Witaj w Sklepie ABC!");
             System.out.println("Wybierz opcję: \n" +
                     "1. Sprzedaż produktów \n" +
                     "2. Sprawdzenie stanu magazynowego \n" +
@@ -24,18 +32,20 @@ public class GroceryShop {
                     "4. Utylizacja towaru \n");
 
             //sprawdzenie dostępności opcji
-            int userSelect = in.nextInt();
-            if(userSelect!=1){
+            int userSelect1 = in.nextInt();
+            if(userSelect1!=1){
                 System.out.println("Opcja ta jest jeszcze niedostępna! Spróbuj ponownie później.");
                 System.exit(0);
             }else {
                 //wyświetlenie stanu magazynowego
                 System.out.println("Aktualny stan magazynowy:");
-                System.out.println(defaultStock);
+                System.out.println(stock);
+                //stworzenie dokumentu sprzedaży
                 SalesDocument salesDocument = new SalesDocument();
-                System.out.print("Podaj kod kreskowy: ");
-                long code = in.nextLong();
-//                salesDocument.addProduct();
+                //skanowanie
+                UserService.getInstance().scanning(salesDocument, a);
+                System.out.println("\nAktualny stan magazynowy:");
+                System.out.println(stock);
             }
 
         }else {
