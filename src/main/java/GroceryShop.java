@@ -43,7 +43,7 @@ public class GroceryShop {
                 //stworzenie dokumentu sprzedaży
                 SalesDocument salesDocument = new SalesDocument();
                 //skanowanie
-                UserService.getInstance().scanning(salesDocument, a);
+                UserService.getInstance().scanning(salesDocument, a, stock);
                 System.out.println("\nAktualny stan magazynowy:");
                 System.out.println(stock);
             }

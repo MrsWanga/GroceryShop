@@ -28,23 +28,14 @@ public class StockService {
         return product.getProduct();
     }
 
-    public boolean isEmptyStock(long code) throws NoSuchElementException {
-        ProductItem product = stock.getStock()
-                .stream()
-                .filter(productItem -> productItem.getProduct().getCode() == code)
-                .findFirst()
-                .orElseThrow();
-        return product.getAmount()==0;
-    }
-
-    public void downgradeStock(ArrayList<Product> products){
+    public void upgradeStock(ArrayList<Product> products){
         products.forEach(product -> {
             ProductItem item = stock.getStock()
                     .stream()
                     .filter(productItem -> productItem.getProduct().getCode() == product.getCode())
                     .findFirst()
                     .orElseThrow();
-            item.setAmount(item.getAmount() - 1);
+            item.setAmount(item.getAmount() + 1);
         });
     }
 

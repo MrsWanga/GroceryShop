@@ -33,8 +33,8 @@ public class SalesDocument {
         sb.append("Sklep ABC " +
                 "Aleja Jana Pawła II 32\n"+
                 "00-141 Warszawa\n");
-        this.products.forEach((p)-> sb.append(p.getName()+"   "+p.getPrice()+"\n"));
-        sb.append("Razem: "+ prices);
+        this.products.forEach((p)-> sb.append(p.getName()).append("   ").append(p.getPrice()).append("\n"));
+        sb.append("Razem: ").append(prices);
         return sb.toString();
     }
 

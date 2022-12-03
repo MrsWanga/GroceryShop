@@ -1,6 +1,10 @@
 package model;
 
+import Exceptions.EmptyStockException;
+import service.StockService;
+
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 public class Stock {
     private ArrayList<ProductItem> stock;
@@ -31,6 +35,28 @@ public class Stock {
         stock.add(milk);
         stock.add(butter);
         stock.add(bread);
+    }
+
+    public static void isBookStock(Product p, Stock s) throws EmptyStockException {
+        if(s.isEmptyStock(p.getCode(), s)){
+            throw new EmptyStockException();
+        }
+        ProductItem item = s.getStock()
+                .stream()
+                .filter(productItem -> productItem.getProduct().getCode() == p.getCode())
+                .findFirst()
+                .orElseThrow();
+            item.setAmount(item.getAmount() - 1);
+
+    }
+
+    public boolean isEmptyStock(long code, Stock s) throws NoSuchElementException {
+        ProductItem product = s.getStock()
+                .stream()
+                .filter(productItem -> productItem.getProduct().getCode() == code)
+                .findFirst()
+                .orElseThrow();
+        return product.getAmount()<1;
     }
 
     @Override
